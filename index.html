@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Vote pour le Roi et la Reine du Bal</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        max-width: 95%;
+        margin: 0 auto;
+        background-color: coral;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+
+            color: white;
+            font-family: Arial, sans-serif;
+
+        }
+
+        /* Création des étoiles */
+
+
+h1{
+text-align: center;
+
+}
+
+h2{
+text-align: center;
+
+}
+
+
+    .vote-section {
+        margin-bottom: 30px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        z-index: 2;
+    }
+    .results {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f0f0f0;
+        border-radius: 5px;
+        z-index: 2;
+                background-color: #1b2735;;
+    }
+    button {
+        padding: 8px 15px;
+        background: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        z-index: 2;
+
+
+    }
+    button:hover {
+        background: #45a049;
+    }
+    input[type="radio"] {
+        margin-right: 10px;
+        z-index: 2;
+    }
+    #resultsContent p {
+        margin: 5px 0;
+        z-index: 2;
+
+    }
+
+    .reini{
+padding: 40px;
+margin: 40px;
+z-index: 2;
+
+    }
+
+ canvas {
+    left: 0px;
+    top: 0px;
+    position: absolute;
+        display: block;
+        background: radial-gradient(ellipse at bottom, #0b0f1a 0%, #000 100%);
+        z-index: -5;
+    }
+    
+
+    .rules{
+display: flex;
+justify-content: space-around;
+    }
+    
+    .bl{
+height: 200px;
+width: 1px;
+background-color: #f0f0f0;
+
+
+    }
+
+h3{
+margin: 40px;
+padding: 40px;
+
+top: 50px; left: 800px;
+text-align: center;
+
+    border:4px solid white;
+
+    box-shadow:
+        0 0 10px white,
+        0 0 25px white;
+
+    border-radius:10px;
+
+}
+
+@keyframes float{
+
+    0%{
+        transform:
+            translateX(-50%)
+            rotate(-12deg)
+            translateY(0px);
+    }
+
+    50%{
+        transform:
+            translateX(-50%)
+            rotate(-12deg)
+            translateY(-15px);
+    }
+
+    100%{
+        transform:
+            translateX(-50%)
+            rotate(-12deg)
+            translateY(0px);
+    }
+}
+
+
+
+
+
+
+</style>
+</head>
+<body>
+
+<h1>Vote pour le Roi et la Reine du Bal</h1>
+
+
+
+
+ <div  ><h3>
+    Pour voter, cochez la case à coté du/de la candidat(e) <br> pour qui vous souhaitez votez, <br> puis aller cliquez sur "Voter pour le/la Roi/Reine" en bas de la colonne.
+    <br><br> Vous ne pouvez votez pour qu'un seul candidat  <br> pour le roi, et qu'une seule pour la Reine
+   <br> <br> Merci de ne pas essayer d'aller voir les résultats <br>  (De toute façon il y a que les admins qui ont le code)
+ </h3></div>
+
+
+
+
+
+
+<canvas id="sky"></canvas>
+
+<script>
+const canvas = document.getElementById("sky");
+const ctx = canvas.getContext("2d");
+
+
+canvas.width = window.innerWidth;
+canvas.height = 7320; 
+
+let stars = [];
+
+class Star {
+    constructor() {
+        this.reset();
+    }
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speed = Math.random() * 2 + 0.5; 
+        this.trail = []; 
+        this.trailLength = 10; 
+    }
+    update() {
+        this.trail.push({x: this.x, y: this.y});
+        if (this.trail.length > this.trailLength) {
+            this.trail.shift();
+        }
+
+        this.x += this.speed;
+
+        if (this.x > canvas.width + this.size) {
+            this.reset();
+            this.x = -this.size;
+        }
+    }
+    draw() {
+        for (let i = 0; i < this.trail.length; i++) {
+            let opacity = i / this.trail.length;
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.trail[i].x, this.trail[i].y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+for (let i = 0; i < 100; i++) {
+    stars.push(new Star());
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let star of stars) {
+        star.update();
+        star.draw();
+    }
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = 7320;
+});
+</script>
+
+
+<div  class="vote-section">
+    <h2>Vote pour le Roi</h2>
+    <form id="voteRoiForm">
+        <p>Choisis ton candidat :</p>
+
+<div id="listeRois"></div>
+
+<script>
+const noms = ["ARFAOUI Sacha",, "BAUER solal",, "BEKER louis",, "BELLINI flavien",, "BEURDELEY julien",, "BODEAU-LIVINEC étienne",, "BOUCHENEB ludovic",, "BOYER Florian",, "CAVAGNE Léandre",, "CHANTEREAULT matis",, "CHASLERIES ryan",, "CHERMETTE grégoire",, "CHOURROT Félicité",, "COLAS paul",, "CUZIAT philémon",, "DAUBAS simon",, "DE OLIVEIRA lucas",, "DE ROBERT florian",, "DEFAIX Nolan",, "DEVOS florian",, "DORIGNAC maxime",, "DOUX lino",, "ECHES anatole",, "EL BEKALI ryad",, "FLAMEZ-PUCHOIS gabin",, "GARDE LEBRETON théophile",, "GRAVIER maël",, "HEBERT thomas",, "JOURDAN Thomas",, "LABOS alexandre",, "LAISNEY robin",, "LANÇON aurélien",, "LE NIVET martin",, "LEJAY LOREAU léonard",, "MALAKOF Sacha",, "MARCAIS Thibault",, "MARTEL lorenzo",, "MAUSSANG Carl-Owen",, "MIDEY Eliot",, "MOREAU Oscar",, "PENAUD Maxime",, "PIERROT Mathis",, "POTART Pierre",, "REYE Clément",, "ROSSIGNOL hugo",, "RUTILLET guillaume",, "SAINTON léo",, "SALDANA nolan",, "SANCHEZ adam",, "SEBBAR manyl",, "SENGOUTTOUVANE yuvaraj",, "SOROUR Aladdin",, "STANISIC alexandre",, "STOCK johan",, "TROUILLET evan",, "VASSEUR paul",, "VEYRAT-MASSON hadrien",, "WIESENDANGER raphaël",
+];
+
+const container = document.getElementById("listeRois");
+
+noms.forEach(nom => {
+    container.innerHTML += `
+        <input type="radio" id="roi${nom}" name="roi" value="${nom}">
+        <label for="roi${nom}">${nom}</label><br><br>
+    `;
+});
+</script>
+        
+
+        <button type="submit">Voter pour le Roi</button>
+    </form>
+</div>
+
+<div class="vote-section">
+    <h2>Vote pour la Reine</h2>
+    <form id="voteReineForm">
+        <p>Choisis ta candidate :</p>
+    
+<div id="listeReines"></div>
+
+<script>
+    const reines = [
+        "AKOPOV jeanne",, "AUBRY elena",, "BALDACCI line",, "BAUDURET camille",, "BENNI graziella",, "BERTAZZON elisa",, "BOËLLE océlia",, "BORNE elena",, "BOUSQUET miki",, "CASSETARI--HOANG lucille",, "CAZALON chloé",, "CHAMMAH elisa",, "CHAMOUTON laurène",, "CHANIER laure",, "DE KERSAUSON marine",, "DESTAILLEUR ella",, "DONG cloée",, "FERLICOT sibylle",, "FORNAL constance",, "FREHEL éléonore",, "FULMINET agathe",, "GAINZA juliette",, "GUENDOUZEN jade",, "GUILLEMOT emma",, "HAFLIGER élodie",, "HAVARD marie",, "HOFFNUNG clémence",, "JAMET adèle",, "JEROME capucine",, "KAJTAZ sarah",, "KASSER héloïse",, "KOUKANE mirass",, "LABLANCHY clara",, "LABOURDETTE lucie",, "LAHACHE loïs",, "LAVIGNE lise",, "LE FOURN lucie",, "LOPIN honorine",, "MAGINOT lisa",, "MASEDA pénélope",, "MOIOLI hanna",, "MOREIRA luna",, "OHNONA tal",, "PACHOT charline",, "PADELLEC iris",, "PICASSO léna",, "PICASSO victoria",, "QUINTELA isis",, "RAABE romane",, "RICHARD julie",, "RIPOLL-FERRU julie",, "ROLNIN nayah",, "ROY louise",, "SCHMIT mathilde",, "TAOUGANI sana",, "THIODAT solène",, "THIOLLAY fannie",, "TOUENTI ines",, "VALLAT philomène",, "VARLET élodie",
+    ];
+
+    const containerReines = document.getElementById("listeReines");
+
+    reines.forEach(reine => {
+        containerReines.innerHTML += `
+            <input type="radio" id="reine${reine}" name="reine" value="${reine}">
+            <label for="reine${reine}">${reine}</label><br><br>
+        `;
+    });
+</script>
+
+
+        <div id="listeReines"></div>
+
+
+
+        <button type="submit">Voter pour la Reine</button>
+    </form>
+</div>
+
+<div class="results">
+    <h2>Résultats</h2>
+    <input type="password" id="accessCode" placeholder="Entrez le code">
+    <button onclick="showResults()">Voir les résultats</button>
+    <div id="resultsContent"></div>
+</div>
+
+
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  // 🔥 CONFIG FIREBASE (remplace par TES valeurs)
+const firebaseConfig = {
+  apiKey: "AIzaSyA_rzMF1mKk8J6FETOa5rjrxm8uHcAeJRo",
+  authDomain: "bal-2k26.firebaseapp.com",
+  databaseURL: "https://bal-2k26-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "bal-2k26",
+  storageBucket: "bal-2k26.firebasestorage.app",
+  messagingSenderId: "817684504280",
+  appId: "1:817684504280:web:0eb1f7930b1eab6e1541ad"
+};
+
+  // Initialise Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  // 🔐 Mot de passe pour les résultats
+  const RESULT_PASSWORD = "SuperBal2026";
+
+  // 📦 Références Firebase
+  const roiRef = database.ref("votes/roi");
+  const reineRef = database.ref("votes/reine");
+
+  // 🔄 Synchronisation des votes en temps réel
+  let roiVotes = {};
+  let reineVotes = {};
+
+  roiRef.on("value", (snapshot) => {
+      roiVotes = snapshot.val() || {};
+      console.log("Votes Roi:", roiVotes);
+  });
+
+  reineRef.on("value", (snapshot) => {
+      reineVotes = snapshot.val() || {};
+      console.log("Votes Reine:", reineVotes);
+  });
+
+
+
+// Dans la gestion du vote pour le Roi
+document.getElementById("voteRoiForm").addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const selected = document.querySelector('input[name="roi"]:checked');
+
+    if (!selected) {
+        alert("Choisis un candidat pour le Roi !");
+        return;
+    }
+
+    const candidate = selected.value;
+
+    // 🔒 Vérifie si déjà voté
+    if (localStorage.getItem("votedRoi") === "true") {
+        alert("Tu as déjà voté pour le Roi !");
+        return;
+    }
+
+    // 🔥 Ajoute le vote Firebase
+    roiRef.child(candidate).transaction((current) => {
+        return (current || 0) + 1;
+    });
+
+    // 🔒 Sauvegarde le vote
+    localStorage.setItem("votedRoi", "true");
+
+    alert("Merci pour ton vote pour le Roi !");
+
+    selected.checked = false;
+});
+
+    // Sélection vote Reine
+
+document.getElementById("voteReineForm").addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const selected = document.querySelector('input[name="reine"]:checked');
+
+    if (!selected) {
+        alert("Choisis une candidate pour la Reine !");
+        return;
+    }
+
+    const candidate = selected.value;
+
+    // Vérifie si déjà voté
+    if (localStorage.getItem("votedReine") === "true") {
+        alert("Tu as déjà voté pour la Reine !");
+        return;
+    }
+
+    // 🔥 IMPORTANT : reineRef
+    reineRef.child(candidate).transaction((current) => {
+        return (current || 0) + 1;
+    });
+
+    // Sauvegarde locale
+    localStorage.setItem("votedReine", "true");
+
+    alert("Merci pour ton vote pour la Reine !");
+
+    selected.checked = false;
+});
+
+    
+  // 📊 Affichage des résultats
+function showResults() {
+
+    const code = document.getElementById("accessCode").value;
+
+    if (code !== RESULT_PASSWORD) {
+        alert("Code incorrect !");
+        return;
+    }
+
+    let html = "<h3>Roi</h3>";
+
+    // 🔥 Tri des votes Roi
+    const sortedRoi = Object.entries(roiVotes)
+        .sort((a, b) => b[1] - a[1]);
+
+    sortedRoi.forEach(([candidate, votes]) => {
+        html += `<p>${candidate} : <strong>${votes}</strong> votes</p>`;
+    });
+
+    html += "<h3>Reine</h3>";
+
+    // 🔥 Tri des votes Reine
+    const sortedReine = Object.entries(reineVotes)
+        .sort((a, b) => b[1] - a[1]);
+
+    sortedReine.forEach(([candidate, votes]) => {
+        html += `<p>${candidate} : <strong>${votes}</strong> votes</p>`;
+    });
+
+    document.getElementById("resultsContent").innerHTML = html;
+}
+</script>
+
+</body>
+</html>
+
