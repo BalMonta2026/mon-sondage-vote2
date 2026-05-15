@@ -20,6 +20,8 @@
         /* Création des étoiles */
 
 
+
+    
 h1{
 text-align: center;
 
@@ -327,14 +329,14 @@ const firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  // 🔐 Mot de passe pour les résultats
+  //  Mot de passe pour les résultats
   const RESULT_PASSWORD = "SuperBal2026";
 
-  // 📦 Références Firebase
+  //  Références Firebase
   const roiRef = database.ref("votes/roi");
   const reineRef = database.ref("votes/reine");
 
-  // 🔄 Synchronisation des votes en temps réel
+  //  Synchronisation des votes en temps réel
   let roiVotes = {};
   let reineVotes = {};
 
@@ -364,18 +366,18 @@ document.getElementById("voteRoiForm").addEventListener("submit", function(e) {
 
     const candidate = selected.value;
 
-    // 🔒 Vérifie si déjà voté
+ 
     if (localStorage.getItem("votedRoi") === "true") {
         alert("Tu as déjà voté pour le Roi !");
         return;
     }
 
-    // 🔥 Ajoute le vote Firebase
+    
     roiRef.child(candidate).transaction((current) => {
         return (current || 0) + 1;
     });
 
-    // 🔒 Sauvegarde le vote
+   
     localStorage.setItem("votedRoi", "true");
 
     alert("Merci pour ton vote pour le Roi !");
@@ -398,18 +400,16 @@ document.getElementById("voteReineForm").addEventListener("submit", function(e) 
 
     const candidate = selected.value;
 
-    // Vérifie si déjà voté
+  
     if (localStorage.getItem("votedReine") === "true") {
         alert("Tu as déjà voté pour la Reine !");
         return;
     }
 
-    // 🔥 IMPORTANT : reineRef
     reineRef.child(candidate).transaction((current) => {
         return (current || 0) + 1;
     });
 
-    // Sauvegarde locale
     localStorage.setItem("votedReine", "true");
 
     alert("Merci pour ton vote pour la Reine !");
@@ -418,7 +418,7 @@ document.getElementById("voteReineForm").addEventListener("submit", function(e) 
 });
 
     
-  // 📊 Affichage des résultats
+  /
 function showResults() {
 
     const code = document.getElementById("accessCode").value;
@@ -430,7 +430,7 @@ function showResults() {
 
     let html = "<h3>Roi</h3>";
 
-    // 🔥 Tri des votes Roi
+    
     const sortedRoi = Object.entries(roiVotes)
         .sort((a, b) => b[1] - a[1]);
 
@@ -440,7 +440,7 @@ function showResults() {
 
     html += "<h3>Reine</h3>";
 
-    // 🔥 Tri des votes Reine
+   
     const sortedReine = Object.entries(reineVotes)
         .sort((a, b) => b[1] - a[1]);
 
