@@ -20,8 +20,6 @@
         /* Création des étoiles */
 
 
-
-    
 h1{
 text-align: center;
 
@@ -103,19 +101,22 @@ background-color: #f0f0f0;
     }
 
 h3{
-margin: 40px;
-padding: 40px;
+margin: 20px auto;
+padding: 15px;
 
 top: 50px; left: 800px;
 text-align: center;
 
-    border:4px solid white;
+    border:2px solid white;
 
     box-shadow:
         0 0 10px white,
         0 0 25px white;
 
     border-radius:10px;
+
+    max-width: 90%;
+    font-size: 0.9rem;
 
 }
 
@@ -144,13 +145,23 @@ text-align: center;
 }
 
 
-
+canvas{
+position: fixed;
+    top: 0;
+    left:0;
+    
+width: 100%;
+height:100%;
+z-index: -1;
+}
 
 
 
 </style>
 </head>
 <body>
+
+<meta  name="viewport" content="width=device-width, initial-scale=1.0">
 
 <h1>Vote pour le Roi et la Reine du Bal</h1>
 
@@ -176,7 +187,7 @@ const ctx = canvas.getContext("2d");
 
 
 canvas.width = window.innerWidth;
-canvas.height = 7320; 
+canvas.height = window.innerHeight; 
 
 let stars = [];
 
@@ -238,7 +249,7 @@ animate();
 
 window.addEventListener("resize", () => {
     canvas.width = window.innerWidth;
-    canvas.height = 7320;
+    canvas.height = window.innerHeight;
 });
 </script>
 
@@ -251,7 +262,7 @@ window.addEventListener("resize", () => {
 <div id="listeRois"></div>
 
 <script>
-const noms = [,, "BAUER solal",, "BEKER louis",, "BELLINI flavien",, "BEURDELEY julien",, "BODEAU-LIVINEC étienne",, "BOUCHENEB ludovic",, "BOYER Florian",, "CAVAGNE Léandre",, "CHANTEREAULT matis",, "CHASLERIES ryan",, "CHERMETTE grégoire",,  "COLAS paul",, "CUZIAT philémon",, "DAUBAS simon",, "DE OLIVEIRA lucas",, "DE ROBERT florian",, "DEFAIX Nolan",, "DEVOS florian",, "DORIGNAC maxime",, "DOUX lino",, "ECHES anatole",, "EL BEKALI ryad",, "FLAMEZ-PUCHOIS gabin",, "GARDE LEBRETON théophile",, "GRAVIER maël",, "HEBERT thomas",, "JOURDAN Thomas",, "LABOS alexandre",, "LAISNEY robin",, "LANÇON aurélien",, "KOUKANE mirass",, "LE NIVET martin",, "LEJAY LOREAU léonard",, "MALAKOF Sacha",, "MARCAIS Thibault",, "MARTEL lorenzo",, "MAUSSANG Carl-Owen",, "MIDEY Eliot",, "MOREAU Oscar",, "PENAUD Maxime",, "PIERROT Mathis",, "POTART Pierre",, "REYE Clément",, "ROSSIGNOL hugo",, "RUTILLET guillaume",, "SAINTON léo",, "SALDANA nolan",, "SANCHEZ adam",, "SEBBAR manyl",, "SENGOUTTOUVANE yuvaraj",, "SOROUR Aladdin",, "STANISIC alexandre",, "STOCK johan",, "TROUILLET evan",, "VASSEUR paul",, "VEYRAT-MASSON hadrien",, "WIESENDANGER raphaël",
+const noms = ["ARFAOUI Sacha",, "BAUER solal",, "BEKER louis",, "BELLINI flavien",, "BEURDELEY julien",, "BODEAU-LIVINEC étienne",, "BOUCHENEB ludovic",, "BOYER Florian",, "CAVAGNE Léandre",, "CHANTEREAULT matis",, "CHASLERIES ryan",, "CHERMETTE grégoire",, "CHOURROT Félicité",, "COLAS paul",, "CUZIAT philémon",, "DAUBAS simon",, "DE OLIVEIRA lucas",, "DE ROBERT florian",, "DEFAIX Nolan",, "DEVOS florian",, "DORIGNAC maxime",, "DOUX lino",, "ECHES anatole",, "EL BEKALI ryad",, "FLAMEZ-PUCHOIS gabin",, "GARDE LEBRETON théophile",, "GRAVIER maël",, "HEBERT thomas",, "JOURDAN Thomas",, "LABOS alexandre",, "LAISNEY robin",, "LANÇON aurélien",, "LE NIVET martin",, "LEJAY LOREAU léonard",, "MALAKOF Sacha",, "MARCAIS Thibault",, "MARTEL lorenzo",, "MAUSSANG Carl-Owen",, "MIDEY Eliot",, "MOREAU Oscar",, "PENAUD Maxime",, "PIERROT Mathis",, "POTART Pierre",, "REYE Clément",, "ROSSIGNOL hugo",, "RUTILLET guillaume",, "SAINTON léo",, "SALDANA nolan",, "SANCHEZ adam",, "SEBBAR manyl",, "SENGOUTTOUVANE yuvaraj",, "SOROUR Aladdin",, "STANISIC alexandre",, "STOCK johan",, "TROUILLET evan",, "VASSEUR paul",, "VEYRAT-MASSON hadrien",, "WIESENDANGER raphaël",
 ];
 
 const container = document.getElementById("listeRois");
@@ -278,7 +289,7 @@ noms.forEach(nom => {
 
 <script>
     const reines = [
-       "ARFAOUI Sacha",, "AKOPOV jeanne",, "AUBRY elena",, "BALDACCI line",, "BAUDURET camille",, "BENNI graziella",, "BERTAZZON elisa",, "BOËLLE océlia",, "BORNE elena",, "BOUSQUET miki",, "CASSETARI--HOANG lucille",, "CAZALON chloé",, "CHAMMAH elisa",, "CHAMOUTON laurène",, "CHANIER laure",,"CHOURROT Félicité",, "DE KERSAUSON marine",, "DESTAILLEUR ella",, "DONG cloée",, "FERLICOT sibylle",, "FORNAL constance",, "FREHEL éléonore",, "FULMINET agathe",, "GAINZA juliette",, "GUENDOUZEN jade",, "GUILLEMOT emma",, "HAFLIGER élodie",, "HAVARD marie",, "HOFFNUNG clémence",, "JAMET adèle",, "JEROME capucine",, "KAJTAZ sarah",, "KASSER héloïse",,  "LABLANCHY clara",, "LABOURDETTE lucie",, "LAHACHE loïs",, "LAVIGNE lise",, "LE FOURN lucie",, "LOPIN honorine",, "MAGINOT lisa",, "MASEDA pénélope",, "MOIOLI hanna",, "MOREIRA luna",, "OHNONA tal",, "PACHOT charline",, "PADELLEC iris",, "PICASSO léna",, "PICASSO victoria",, "QUINTELA isis",, "RAABE romane",, "RICHARD julie",, "RIPOLL-FERRU julie",, "ROLNIN nayah",, "ROY louise",, "SCHMIT mathilde",, "TAOUGANI sana",, "THIODAT solène",, "THIOLLAY fannie",, "TOUENTI ines",, "VALLAT philomène",, "VARLET élodie",
+        "AKOPOV jeanne",, "AUBRY elena",, "BALDACCI line",, "BAUDURET camille",, "BENNI graziella",, "BERTAZZON elisa",, "BOËLLE océlia",, "BORNE elena",, "BOUSQUET miki",, "CASSETARI--HOANG lucille",, "CAZALON chloé",, "CHAMMAH elisa",, "CHAMOUTON laurène",, "CHANIER laure",, "DE KERSAUSON marine",, "DESTAILLEUR ella",, "DONG cloée",, "FERLICOT sibylle",, "FORNAL constance",, "FREHEL éléonore",, "FULMINET agathe",, "GAINZA juliette",, "GUENDOUZEN jade",, "GUILLEMOT emma",, "HAFLIGER élodie",, "HAVARD marie",, "HOFFNUNG clémence",, "JAMET adèle",, "JEROME capucine",, "KAJTAZ sarah",, "KASSER héloïse",, "KOUKANE mirass",, "LABLANCHY clara",, "LABOURDETTE lucie",, "LAHACHE loïs",, "LAVIGNE lise",, "LE FOURN lucie",, "LOPIN honorine",, "MAGINOT lisa",, "MASEDA pénélope",, "MOIOLI hanna",, "MOREIRA luna",, "OHNONA tal",, "PACHOT charline",, "PADELLEC iris",, "PICASSO léna",, "PICASSO victoria",, "QUINTELA isis",, "RAABE romane",, "RICHARD julie",, "RIPOLL-FERRU julie",, "ROLNIN nayah",, "ROY louise",, "SCHMIT mathilde",, "TAOUGANI sana",, "THIODAT solène",, "THIOLLAY fannie",, "TOUENTI ines",, "VALLAT philomène",, "VARLET élodie",
     ];
 
     const containerReines = document.getElementById("listeReines");
@@ -329,14 +340,14 @@ const firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  //  Mot de passe pour les résultats
+  // 🔐 Mot de passe pour les résultats
   const RESULT_PASSWORD = "SuperBal2026";
 
-  //  Références Firebase
+  // 📦 Références Firebase
   const roiRef = database.ref("votes/roi");
   const reineRef = database.ref("votes/reine");
 
-  //  Synchronisation des votes en temps réel
+  // 🔄 Synchronisation des votes en temps réel
   let roiVotes = {};
   let reineVotes = {};
 
@@ -366,18 +377,18 @@ document.getElementById("voteRoiForm").addEventListener("submit", function(e) {
 
     const candidate = selected.value;
 
- 
+    // 🔒 Vérifie si déjà voté
     if (localStorage.getItem("votedRoi") === "true") {
         alert("Tu as déjà voté pour le Roi !");
         return;
     }
 
-    
+    // 🔥 Ajoute le vote Firebase
     roiRef.child(candidate).transaction((current) => {
         return (current || 0) + 1;
     });
 
-   
+    // 🔒 Sauvegarde le vote
     localStorage.setItem("votedRoi", "true");
 
     alert("Merci pour ton vote pour le Roi !");
@@ -400,16 +411,18 @@ document.getElementById("voteReineForm").addEventListener("submit", function(e) 
 
     const candidate = selected.value;
 
-  
+    // Vérifie si déjà voté
     if (localStorage.getItem("votedReine") === "true") {
         alert("Tu as déjà voté pour la Reine !");
         return;
     }
 
+    // 🔥 IMPORTANT : reineRef
     reineRef.child(candidate).transaction((current) => {
         return (current || 0) + 1;
     });
 
+    // Sauvegarde locale
     localStorage.setItem("votedReine", "true");
 
     alert("Merci pour ton vote pour la Reine !");
@@ -418,7 +431,7 @@ document.getElementById("voteReineForm").addEventListener("submit", function(e) 
 });
 
     
-  /
+  // 📊 Affichage des résultats
 function showResults() {
 
     const code = document.getElementById("accessCode").value;
@@ -430,7 +443,7 @@ function showResults() {
 
     let html = "<h3>Roi</h3>";
 
-    
+    // 🔥 Tri des votes Roi
     const sortedRoi = Object.entries(roiVotes)
         .sort((a, b) => b[1] - a[1]);
 
@@ -440,7 +453,7 @@ function showResults() {
 
     html += "<h3>Reine</h3>";
 
-   
+    // 🔥 Tri des votes Reine
     const sortedReine = Object.entries(reineVotes)
         .sort((a, b) => b[1] - a[1]);
 
